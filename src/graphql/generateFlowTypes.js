@@ -48,9 +48,15 @@ export default function generateFlowTypes(
     }
   }
   function formatNodeField(field: NodeFieldType): string {
+    if (field.fidelity.type === "UNFAITHFUL") {
+      throw new Error("Support for UNFAITHFUL fidelity not yet implemented");
+    }
     return "null | " + field.elementType;
   }
   function formatConnectionField(field: ConnectionFieldType): string {
+    if (field.fidelity.type === "UNFAITHFUL") {
+      throw new Error("Support for UNFAITHFUL fidelity not yet implemented");
+    }
     return `$ReadOnlyArray<null | ${field.elementType}>`;
   }
   function formatNestedField(field: NestedFieldType): string {

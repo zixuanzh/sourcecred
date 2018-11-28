@@ -69,10 +69,31 @@ export type PrimitiveTypeAnnotation = {|
   +nonNull: boolean,
   +elementType: Typename,
 |};
-export type NodeFieldType = {|+type: "NODE", +elementType: Typename|};
+
+// A field is _faithful_ if selecting its `__typename` and `id` will
+// always yield the correct `__typename` for the node of the given ID.
+// In theory, this should always be the case, but some remote schemas
+// are broken. For details, see:
+//
+//   - https://github.com/sourcecred/sourcecred/issues/996
+//   - https://github.com/sourcecred/sourcecred/issues/998
+//
+// For an unfaithful field, the `actualTypenames` property lists all the
+// types of objects that can _actually_ be returned when the field is
+// queried.
+export type Fidelity =
+  | {|+type: "FAITHFUL"|}
+  | {|+type: "UNFAITHFUL", actualTypenames: {|+[Typename]: true|}|};
+
+export type NodeFieldType = {|
+  +type: "NODE",
+  +elementType: Typename,
+  +fidelity: Fidelity,
+|};
 export type ConnectionFieldType = {|
   +type: "CONNECTION",
   +elementType: Typename,
+  +fidelity: Fidelity,
 |};
 export type NestedFieldType = {|
   +type: "NESTED",
@@ -115,6 +136,27 @@ export function schema(types: {[Typename]: NodeType}): Schema {
               );
             }
           }
+          function validateFidelity(path, fidelity: Fidelity) {
+            const self = `field ${path
+              .map((x) => JSON.stringify(x))
+              .join("/")}`;
+            switch (fidelity.type) {
+              case "FAITHFUL":
+                return;
+              case "UNFAITHFUL":
+                for (const possibleTypename in fidelity.actualTypenames) {
+                  const fidelityType = types[possibleTypename];
+                  if (fidelityType == null) {
+                    throw new Error(
+                      `${self} has invalid actualTypename ${possibleTypename} in its unfaithful fidelity`
+                    );
+                  }
+                }
+                return;
+              default:
+                throw new Error((fidelity.type: empty));
+            }
+          }
           switch (field.type) {
             case "ID":
               // Nothing to check.
@@ -133,12 +175,14 @@ export function schema(types: {[Typename]: NodeType}): Schema {
                 "OBJECT",
                 "UNION",
               ]);
+              validateFidelity([typename, fieldname], field.fidelity);
               break;
             case "CONNECTION":
               assertKind([typename, fieldname], field.elementType, [
                 "OBJECT",
                 "UNION",
               ]);
+              validateFidelity([typename, fieldname], field.fidelity);
               break;
             case "NESTED":
               for (const eggName of Object.keys(field.eggs)) {
@@ -158,6 +202,10 @@ export function schema(types: {[Typename]: NodeType}): Schema {
                       [typename, fieldname, eggName],
                       egg.elementType,
                       ["OBJECT", "UNION"]
+                    );
+                    validateFidelity(
+                      [typename, fieldname, eggName],
+                      egg.fidelity
                     );
                     break;
                   // istanbul ignore next: unreachable per Flow
@@ -256,12 +304,39 @@ export function primitive(
   return {type: "PRIMITIVE", annotation: annotation || null};
 }
 
-export function node(elementType: Typename): NodeFieldType {
-  return {type: "NODE", elementType};
+export function node(
+  elementType: Typename,
+  fidelity: ?Fidelity
+): NodeFieldType {
+  if (fidelity == null) {
+    fidelity = faithful();
+  }
+  return {type: "NODE", elementType, fidelity};
 }
 
-export function connection(elementType: Typename): ConnectionFieldType {
-  return {type: "CONNECTION", elementType};
+export function connection(
+  elementType: Typename,
+  fidelity: ?Fidelity
+): ConnectionFieldType {
+  if (fidelity == null) {
+    fidelity = faithful();
+  }
+  return {type: "CONNECTION", elementType, fidelity};
+}
+
+export function faithful(): Fidelity {
+  return {type: "FAITHFUL"};
+}
+
+export function unfaithful(typenames: $ReadOnlyArray<Typename>): Fidelity {
+  const actualTypenames: {|[Typename]: true|} = ({}: any);
+  for (const t of typenames) {
+    if (actualTypenames[t] === true) {
+      throw new Error(`duplicate unfaithful typename ${t}`);
+    }
+    actualTypenames[t] = true;
+  }
+  return {type: "UNFAITHFUL", actualTypenames};
 }
 
 export function nonNull(elementType: Typename): PrimitiveTypeAnnotation {
