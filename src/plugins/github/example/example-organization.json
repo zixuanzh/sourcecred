@@ -1,0 +1,13 @@
+{
+    "name": "sourcecred-test-organization",
+    "repos": [
+        {
+            "name": "test-repo-two",
+            "owner": "sourcecred-test-organization"
+        },
+        {
+            "name": "test-repo-one",
+            "owner": "sourcecred-test-organization"
+        }
+    ]
+}
