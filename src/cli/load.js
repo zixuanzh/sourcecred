@@ -5,7 +5,12 @@ import mkdirp from "mkdirp";
 import path from "path";
 
 import * as RepoIdRegistry from "../core/repoIdRegistry";
-import {repoIdToString, stringToRepoId, type RepoId} from "../core/repoId";
+import {
+  repoIdToString,
+  stringToRepoId,
+  type RepoId,
+  makeRepoId,
+} from "../core/repoId";
 import dedent from "../util/dedent";
 import type {Command} from "./command";
 import * as Common from "./common";
@@ -13,11 +18,16 @@ import * as Common from "./common";
 import execDependencyGraph from "../tools/execDependencyGraph";
 import {loadGithubData} from "../plugins/github/loadGithubData";
 import {loadGitData} from "../plugins/git/loadGitData";
+import {
+  fetchGithubOrg,
+  type Organization,
+} from "../plugins/github/fetchGithubOrg";
 
 function usage(print: (string) => void): void {
   print(
     dedent`\
     usage: sourcecred load [REPO_ID...] [--output REPO_ID]
+                           [--organization ORGANIZATION]
                            [--plugin PLUGIN]
                            [--help]
 
@@ -39,6 +49,12 @@ function usage(print: (string) => void): void {
 
             If only one repository is given, the output defaults to that
             repository. Otherwise, an output must be specified.
+
+        --organization ORGANIZATION
+            Load all of the repositories owned by the given organization. This
+            flag may be provided multiple times if you want to merge repositores
+            for several organizations. As multiple repositories will be loaded,
+            the --output flag is mandatory.
 
         --plugin PLUGIN
             Plugin for which to load data. Valid options are 'git' and
@@ -76,9 +92,10 @@ function die(std, message) {
 }
 
 const load: Command = async (args, std) => {
-  const repoIds = [];
+  let repoIds = [];
   let explicitOutput: RepoId | null = null;
   let plugin: Common.PluginName | null = null;
+  let organizations: string[] = [];
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--help": {
@@ -103,12 +120,35 @@ const load: Command = async (args, std) => {
         plugin = arg;
         break;
       }
+      case "--organization": {
+        if (++i >= args.length)
+          return die(std, "--organization' given without value");
+        organizations.push(args[i]);
+        break;
+      }
       default: {
         // Should be a repository.
         repoIds.push(stringToRepoId(args[i]));
         break;
       }
     }
+  }
+
+  if (organizations.length) {
+    if (explicitOutput == null && organizations.length === 1) {
+      explicitOutput = makeRepoId(organizations[0], "combined");
+    }
+    const token = Common.githubToken();
+    if (token == null) {
+      // TODO(#638): This check should be abstracted so that plugins can
+      // specify their argument dependencies and get nicely formatted
+      // errors.
+      return die(std, "no GitHub token specified");
+    }
+    const loadedOrgs = await Promise.all(
+      organizations.map((o) => fetchGithubOrg(o, token))
+    );
+    repoIds = repoIds.concat(...loadedOrgs.map((o: Organization) => o.repos));
   }
 
   let output: RepoId;
