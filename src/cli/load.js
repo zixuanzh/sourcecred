@@ -151,6 +151,24 @@ const load: Command = async (args, std) => {
     repoIds = repoIds.concat(...loadedOrgs.map((o: Organization) => o.repos));
   }
 
+  const skipTheseRepos = [
+    makeRepoId("ipfs", "js-ipfs-unixfs-exporter"),
+    makeRepoId("ipfs", "js-ipfs-unixfs-importer"),
+    makeRepoId("ipfs", "faq"),
+    makeRepoId("ipfs", "RFC"),
+    makeRepoId("ipfs", "js-core"),
+  ];
+  const filter = (x: RepoId) => {
+    for (const otherRepo of skipTheseRepos) {
+      if (x.owner === otherRepo.owner && x.name === otherRepo.name) {
+        return false;
+      }
+    }
+    return true;
+  };
+  // STOPSHIP grim hack
+  repoIds = repoIds.filter(filter);
+
   let output: RepoId;
   if (explicitOutput != null) {
     output = explicitOutput;

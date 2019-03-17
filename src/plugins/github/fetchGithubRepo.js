@@ -36,6 +36,7 @@ export default async function fetchGithubRepo(
   options: {|+token: string, +cacheDirectory: string|}
 ): Promise<Repository> {
   const {token, cacheDirectory} = options;
+  console.error(repoId);
 
   const validToken = /^[A-Fa-f0-9]{40}$/;
   if (!validToken.test(token)) {
