@@ -157,6 +157,7 @@ const load: Command = async (args, std) => {
     makeRepoId("ipfs", "faq"),
     makeRepoId("ipfs", "RFC"),
     makeRepoId("ipfs", "js-core"),
+    makeRepoId("multiformats", "multistream"),
   ];
   const filter = (x: RepoId) => {
     for (const otherRepo of skipTheseRepos) {
