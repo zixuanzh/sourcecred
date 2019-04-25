@@ -1,113 +1,126 @@
 # [SourceCred](https://sourcecred.io)
 
-[![Build Status](https://circleci.com/gh/sourcecred/sourcecred.svg?style=svg)](https://circleci.com/gh/sourcecred/sourcecred)
-[![Discourse topics](https://img.shields.io/discourse/https/discuss.sourcecred.io/topics.svg)](discuss.sourcecred.io)
-[![Discord](https://img.shields.io/discord/453243919774253079.svg)](https://discord.gg/tsBTgc9)
+## SourceCred - Org Scores Sidebranch
 
-SourceCred creates reputation networks for open-source projects.
-Any open-source project can create its own _cred_, which is a reputational metric showing how much credit contributors deserve for helping the project.
-To compute cred, we organize a project’s contributions into a graph, whose edges connect contributions to each other and to contributors.
-We then run PageRank on that graph.
+This branch contains a prototype SourceCred workflow for producing cred scores
+for entire organizations. It depends on code that hasn't yet been merged into
+`master`, so expect lower quality, less documentation, and possible bugginess.
 
-To learn more about SourceCred’s vision and values, please check out [our website] and our [forum].
-One good forum post to start with is [A Gentle Introduction to Cred].
 
-For an example of SourceCred in action, you can see SourceCred’s own [prototype cred attribution][prototype].
-
-[our website]: https://sourcecred.io/
-[prototype]: https://sourcecred.io/prototype/
-[A Gentle Introduction to Cred]: https://discuss.sourcecred.io/t/a-gentle-introduction-to-cred/20
-
-## Current Status
-
-We have a [prototype] that can generate a cred attribution based on GitHub interactions (issues, pull requests, comments, references, etc.).
-We’re working on adding more information to the prototype, such as tracking modifications to individual files, source-code analysis, GitHub reactions, and more.
-
-### Running the Prototype
-
-If you’d like to try it out, you can run a local copy of SourceCred as follows.
-First, make sure that you have the following dependencies:
+### Dependencies
 
   - Install [Node] (tested on v8.x.x).
   - Install [Yarn] (tested on v1.7.0).
   - Create a [GitHub API token]. No special permissions are required.
-  - For macOS users: Ensure that your environment provides GNU
-    coreutils. [See this comment for details about what, how, and
-    why.][macos-gnu]
 
 [Node]: https://nodejs.org/en/
 [Yarn]: https://yarnpkg.com/lang/en/
 [GitHub API token]: https://github.com/settings/tokens
 
-[macos-gnu]: https://github.com/sourcecred/sourcecred/issues/698#issuecomment-417202213
+### Installation and Setup
 
-Then, run the following commands to clone and build SourceCred:
+Run the following commands to clone and build SourceCred:
 
 ```
 git clone https://github.com/sourcecred/sourcecred.git
 cd sourcecred
+git checkout org-scores-prototype
 yarn install
 yarn backend
 export SOURCECRED_GITHUB_TOKEN=YOUR_GITHUB_TOKEN
-node bin/sourcecred.js load REPO_OWNER/REPO_NAME
-# this loads sourcecred data for a particular repository
-# it can take a few mins to run and will exit when finished
-yarn start
-# then navigate to localhost:8080 in your browser
 ```
 
-For example, if you wanted to look at cred for [ipfs/js-ipfs], you could run:
+### Download data for an organization
+
+Next we should download data for your organization.
+This will take a while. (Hours for large organizations.)
 
 ```
-$ export SOURCECRED_GITHUB_TOKEN=0000000000000000000000000000000000000000
-$ node bin/sourcecred.js load ipfs/js-ipfs
+node bin/sourcecred.js load --organization ORG_NAME
 ```
 
-replacing the big string of zeros with your actual token.
+### View the results in the browser
 
-[ipfs/js-ipfs]: https://github.com/ipfs/js-ipfs
+You can now see the resultant data by running `yarn start`
+and navigating to the url it provides, and then clicking on
+'prototypes' in the nav bar.
 
-You can also combine data from multiple repositories into a single graph.
-To do so, pass multiple repositories to the `load` command, and specify an “output name” for the repository.
-For instance, the invocation
+### Exporting data as JSON
+
+Run the following commands to get the scores as JSON.
 
 ```
-node bin/sourcecred.js load ipfs/js-ipfs ipfs/go-ipfs --output ipfs/meta-ipfs
+node bin/sourcecred.js pagerank ORG_NAME/combined
+node bin/sourcecred.js scores ORG_NAME/combined
 ```
 
-will create a graph called `ipfs/meta-ipfs` in the cred explorer, containing the combined contents of the js-ipfs and go-ipfs repositories.
+The latter command will print a JSON blob containing the username->score mapping
+to stdout.
 
-## Early Adopters
+### Interpreting the scores
 
-We’re looking for projects who want to be early adopters of SourceCred!
-If you’re a maintainer of an open-source project and would like to start using SourceCred, please reach out to us on our [Discord] or our [forum].
+Cred scores are derived from running PageRank on a project's Git and GitHub data.
+PageRank outputs a probability distribution over all the nodes in the graph.
+To make the scores a little more readable, we re-normalize so that the users
+collectively always have 1000 score. So a user with 10 cred has 1% of the total
+cred for that project or organization.
 
-## Contributing
+### Caveats
 
-We’d love to accept your contributions!
-You can reach out to us by posting on our [forum], or chatting with us on [Discord].
-We'd be happy to help you get started and show you around the codebase.
-Please also take a look at our [contributing guide].
+#### Need for ad-hoc blacklisting
 
-If you’re looking for a place to start, we’ve tagged some [good first issues].
+SourceCred fails on certain (mostly small) GitHub repos for reasons that I haven't yet
+dug into. Characteristically, the failure will look like this:
 
-[forum]: https://discuss.sourcecred.io
-[Discord]: https://discord.gg/tsBTgc9
-[contributing guide]: https://github.com/sourcecred/sourcecred/blob/master/CONTRIBUTING.md
-[good first issues]: https://github.com/sourcecred/sourcecred/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
+```
+❯ node bin/sourcecred.js load --organization multiformats
 
-## License
+Starting tasks
+  GO   load-git
+  GO   load-github
+ DONE  load-git
+ FAIL  load-github
+Exit code: 1
+Contents of stderr:
+    { owner: 'multiformats', name: 'multihash' }
+    { owner: 'multiformats', name: 'multiformats' }
+    { owner: 'multiformats', name: 'multiaddr' }
+    { owner: 'multiformats', name: 'go-multihash' }
+    { owner: 'multiformats', name: 'cid' }
+    { owner: 'multiformats', name: 'multicodec' }
+    { owner: 'multiformats', name: 'go-multiaddr' }
+    { owner: 'multiformats', name: 'multibase' }
+    { owner: 'multiformats', name: 'js-multihash' }
+    { owner: 'multiformats', name: 'js-multiaddr' }
+    { owner: 'multiformats', name: 'js-cid' }
+    { owner: 'multiformats', name: 'multistream' }
+    SqliteError: NOT NULL constraint failed: tmp_transitive_dependencies_1.typename
+        at _inTransaction (/home/dandelion/code/sourcecred/sourcecred/bin/sourcecred.js:1516:14)
+        at _inTransaction (/home/dandelion/code/sourcecred/sourcecred/bin/sourcecred.js:1640:142)
+        at Mirror.extract (/home/dandelion/code/sourcecred/sourcecred/bin/sourcecred.js:1492:47)
+        at fetchGithubRepo (/home/dandelion/code/sourcecred/sourcecred/bin/sourcecred.js:750:61)
+        at process._tickCallback (internal/process/next_tick.js:68:7)
 
-SourceCred is dual-licensed under Apache 2.0 and MIT terms:
 
-  * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or <https://www.apache.org/licenses/LICENSE-2.0>)
-  * MIT License ([LICENSE-MIT](LICENSE-MIT) or <https://opensource.org/licenses/MIT>)
+Overview
+Failed tasks:
+  - load-github
+Final result:  FAILURE
 
-## Acknowledgements
+```
 
-We’d like to thank [Protocol Labs] for funding and support of SourceCred.
-We’d also like to thank the many open-source communities that produced the software that SourceCred is built on top of, such as [Git] and [Node][Node github].
+If this occurs, you can hack around it by blacklisting the offending repo.
+In this case, [multiformats/multistream](https://github.com/multiformats/multistream).
+On line 154 in `src/cli/load.js`, there's a constant called `skipTheseRepos`
+which has a number of small repos manually blacklisted. You can add more repos
+to this list, and then rebuild via `yarn backend`.
 
-[Protocol Labs]: https://protocol.ai
-[Git]: https://github.com/git/git
-[Node github]: https://github.com/nodejs/node
+#### Reference cred disabled
+
+One nice feature of SourceCred is that it uses GitHub references as a rich source of signal
+in determining how important activity is (comments, pulls, and issues earn more cred for
+being referenced by other high-cred entities). Unfortunately, reference detection is buggy
+when there are multiple repos in scope (numeric references like #123 may be attributed to
+the wrong repository). As such, this prototype is configured so that references have 0 weight.
+
+
