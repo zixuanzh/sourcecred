@@ -85,6 +85,16 @@ function makeRouteData(registry /*: RepoIdRegistry */) /*: RouteData */ {
       title: `${entry.repoId.owner}/${entry.repoId.name} • SourceCred`,
       navTitle: null,
     })),
+    ...registry.map((entry) => ({
+      path: `/timeline/${entry.repoId.owner}/${entry.repoId.name}/`,
+      contents: {
+        type: "PAGE",
+        component: () => require("./TimelinePage").default(entry.repoId),
+        //component: () => require("./ProjectPage").default(entry.repoId),
+      },
+      title: `${entry.repoId.owner}/${entry.repoId.name} • Timeline`,
+      navTitle: null,
+    })),
     {
       path: "/odyssey/",
       contents: {
