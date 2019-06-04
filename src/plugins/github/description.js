@@ -27,8 +27,9 @@ function userlike(x: R.Userlike) {
 // because the commit has a Git plugin prefix and will therefore by
 // handled by the git plugin adapter
 function commit(x: R.Commit) {
-  const shortHash = x.address().hash.slice(0, 7);
-  return `[${shortHash}](${x.url()})`;
+  const shortHash = x.hash().slice(0, 7);
+  const topline = x.message().split("\n")[0];
+  return `[${shortHash}](${x.url()}): ${topline}`;
 }
 
 export function description(e: R.Entity): string {
