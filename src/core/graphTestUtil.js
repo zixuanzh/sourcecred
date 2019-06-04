@@ -18,6 +18,7 @@ import {EdgeAddress, Graph, NodeAddress} from "./graph";
 export const partsNode = (parts: string[]) =>
   Object.freeze({
     address: NodeAddress.fromParts(parts),
+    description: parts.toString(),
   });
 
 /**

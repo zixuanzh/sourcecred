@@ -5,6 +5,7 @@ import * as N from "./nodes";
 import * as GitNode from "../git/nodes";
 import * as R from "./relationalView";
 import {createEdge} from "./edges";
+import {description} from "./description";
 import {ReactionContent$Values as Reactions} from "./graphqlTypes";
 
 export function createGraph(view: R.RelationalView): Graph {
@@ -22,7 +23,9 @@ class GraphCreator {
 
   addData(view: R.RelationalView) {
     for (const entity of view.entities()) {
-      this.addNode(entity.address());
+      const d = description(entity);
+      const address = N.toRaw(entity.address());
+      this.graph.addNode({address, description: d});
     }
 
     for (const child of view.childEntities()) {
@@ -73,10 +76,6 @@ class GraphCreator {
         }
       }
     }
-  }
-
-  addNode(addr: N.StructuredAddress) {
-    this.graph.addNode({address: N.toRaw(addr)});
   }
 
   addAuthors(entity: R.AuthoredEntity) {

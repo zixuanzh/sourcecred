@@ -93,7 +93,7 @@ export class OdysseyInstance {
       typeIdentifier,
       String(this._count)
     );
-    const node = {address};
+    const node = {address, description};
     this._graph.addNode(node);
     this._count++;
     this._descriptions.set(address, description);
