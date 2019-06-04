@@ -14,10 +14,10 @@ describe("plugins/github/createdAt", () => {
     expect(results).toMatchInlineSnapshot(`
 Object {
   "comment": 1519878210000,
-  "commit": null,
+  "commit": 1519807427000,
   "issue": 1519807129000,
   "pull": 1519807636000,
-  "repo": null,
+  "repo": 1519807034000,
   "review": 1519878210000,
   "userlike": null,
 }

@@ -61,7 +61,7 @@ describe("plugins/github/analysisAdapter", () => {
           number: "1",
         });
         const actualCreatedAt = aa.createdAt(addr);
-        expect(actualCreatedAt).toMatchInlineSnapshot(`1519807088000`);
+        expect(actualCreatedAt).toMatchInlineSnapshot(`undefined`);
       });
       it("throws an error for an absent entity", async () => {
         const aa = await loadAnalysisAdapter();
