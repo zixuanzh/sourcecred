@@ -136,9 +136,10 @@ export type Edge = {|
   +address: EdgeAddressT,
   +src: NodeAddressT,
   +dst: NodeAddressT,
+  +timestampMs: number,
 |};
 
-const COMPAT_INFO = {type: "sourcecred/graph", version: "0.6.0"};
+const COMPAT_INFO = {type: "sourcecred/graph", version: "0.7.0"};
 
 export type Neighbor = {|+node: Node, +edge: Edge|};
 
@@ -176,6 +177,7 @@ type IndexedEdgeJSON = {|
   +address: AddressJSON,
   +srcIndex: Integer,
   +dstIndex: Integer,
+  +timestampMs: number,
 |};
 
 export opaque type GraphJSON = Compatible<{|
@@ -432,7 +434,8 @@ export class Graph {
       if (
         existingEdge.src !== edge.src ||
         existingEdge.dst !== edge.dst ||
-        existingEdge.address !== edge.address
+        existingEdge.address !== edge.address ||
+        existingEdge.timestampMs !== edge.timestampMs
       ) {
         const strEdge = edgeToString(edge);
         const strExisting = edgeToString(existingEdge);
@@ -747,10 +750,15 @@ export class Graph {
       (x) => x.address
     );
     const indexedEdges: IndexedEdgeJSON[] = sortedEdges.map(
-      ({src, dst, address}) => {
+      ({src, dst, address, timestampMs}) => {
         const srcIndex = NullUtil.get(nodeAddressToSortedIndex.get(src));
         const dstIndex = NullUtil.get(nodeAddressToSortedIndex.get(dst));
-        return {srcIndex, dstIndex, address: EdgeAddress.toParts(address)};
+        return {
+          srcIndex,
+          dstIndex,
+          address: EdgeAddress.toParts(address),
+          timestampMs,
+        };
       }
     );
     const sortedNodes = sortBy(Array.from(this.nodes()), (x) => x.address);
@@ -792,13 +800,14 @@ export class Graph {
       };
       result.addNode(n);
     });
-    edgesJSON.forEach(({address, srcIndex, dstIndex}) => {
+    edgesJSON.forEach(({address, srcIndex, dstIndex, timestampMs}) => {
       const src = sortedNodeAddresses[srcIndex];
       const dst = sortedNodeAddresses[dstIndex];
       result.addEdge({
         address: EdgeAddress.fromParts(address),
         src: src,
         dst: dst,
+        timestampMs,
       });
     });
     return result;
@@ -1046,11 +1055,13 @@ export function edgeToString(edge: Edge): string {
   const address = EdgeAddress.toString(edge.address);
   const src = NodeAddress.toString(edge.src);
   const dst = NodeAddress.toString(edge.dst);
-  return `{address: ${address}, src: ${src}, dst: ${dst}}`;
+  return `{address: ${address}, src: ${src}, dst: ${dst}, timestampMs: ${
+    edge.timestampMs
+  }}`;
 }
 
 /**
- * Convert an edge to an object whose fields are human-readable strings.
+ * Convert an edge to an object whose fields are human-readable.
  * This is useful for storing edges in human-readable formats that
  * should not include NUL characters, such as Jest snapshots.
  */
@@ -1060,21 +1071,29 @@ export function edgeToStrings(
   +address: string,
   +src: string,
   +dst: string,
+  +timestampMs: number,
 |} {
   return {
     address: EdgeAddress.toString(edge.address),
     src: NodeAddress.toString(edge.src),
     dst: NodeAddress.toString(edge.dst),
+    timestampMs: edge.timestampMs,
   };
 }
 
 export function edgeToParts(
   edge: Edge
-): {|+addressParts: string[], +srcParts: string[], +dstParts: string[]|} {
+): {|
+  +addressParts: string[],
+  +srcParts: string[],
+  +dstParts: string[],
+  +timestampMs: number,
+|} {
   const addressParts = EdgeAddress.toParts(edge.address);
   const srcParts = NodeAddress.toParts(edge.src);
   const dstParts = NodeAddress.toParts(edge.dst);
-  return {addressParts, srcParts, dstParts};
+  const timestampMs = edge.timestampMs;
+  return {addressParts, srcParts, dstParts, timestampMs};
 }
 
 /*

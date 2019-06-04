@@ -4,7 +4,7 @@ exports[`plugins/github/createGraph example graph matches snapshot 1`] = `
 Array [
   Object {
     "type": "sourcecred/graph",
-    "version": "0.6.0",
+    "version": "0.7.0",
   },
   Object {
     "edges": Array [
@@ -27,6 +27,7 @@ Array [
         ],
         "dstIndex": 28,
         "srcIndex": 47,
+        "timestampMs": 1536788634000,
       },
       Object {
         "address": Array [
@@ -51,6 +52,7 @@ Array [
         ],
         "dstIndex": 21,
         "srcIndex": 47,
+        "timestampMs": 1535576390000,
       },
       Object {
         "address": Array [
@@ -71,6 +73,7 @@ Array [
         ],
         "dstIndex": 25,
         "srcIndex": 48,
+        "timestampMs": 1519807427000,
       },
       Object {
         "address": Array [
@@ -91,6 +94,7 @@ Array [
         ],
         "dstIndex": 27,
         "srcIndex": 48,
+        "timestampMs": 1519878354000,
       },
       Object {
         "address": Array [
@@ -111,6 +115,7 @@ Array [
         ],
         "dstIndex": 29,
         "srcIndex": 48,
+        "timestampMs": 1519807271000,
       },
       Object {
         "address": Array [
@@ -131,6 +136,7 @@ Array [
         ],
         "dstIndex": 30,
         "srcIndex": 48,
+        "timestampMs": 1519807329000,
       },
       Object {
         "address": Array [
@@ -153,6 +159,7 @@ Array [
         ],
         "dstIndex": 31,
         "srcIndex": 48,
+        "timestampMs": 1519807088000,
       },
       Object {
         "address": Array [
@@ -175,6 +182,7 @@ Array [
         ],
         "dstIndex": 32,
         "srcIndex": 48,
+        "timestampMs": 1530297021000,
       },
       Object {
         "address": Array [
@@ -197,6 +205,7 @@ Array [
         ],
         "dstIndex": 34,
         "srcIndex": 48,
+        "timestampMs": 1536878086000,
       },
       Object {
         "address": Array [
@@ -219,6 +228,7 @@ Array [
         ],
         "dstIndex": 35,
         "srcIndex": 48,
+        "timestampMs": 1536878137000,
       },
       Object {
         "address": Array [
@@ -241,6 +251,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 48,
+        "timestampMs": 1519807129000,
       },
       Object {
         "address": Array [
@@ -263,6 +274,7 @@ Array [
         ],
         "dstIndex": 37,
         "srcIndex": 48,
+        "timestampMs": 1519807454000,
       },
       Object {
         "address": Array [
@@ -285,6 +297,7 @@ Array [
         ],
         "dstIndex": 38,
         "srcIndex": 48,
+        "timestampMs": 1521217624000,
       },
       Object {
         "address": Array [
@@ -307,6 +320,7 @@ Array [
         ],
         "dstIndex": 39,
         "srcIndex": 48,
+        "timestampMs": 1521569949000,
       },
       Object {
         "address": Array [
@@ -329,6 +343,7 @@ Array [
         ],
         "dstIndex": 40,
         "srcIndex": 48,
+        "timestampMs": 1521570243000,
       },
       Object {
         "address": Array [
@@ -351,6 +366,7 @@ Array [
         ],
         "dstIndex": 41,
         "srcIndex": 48,
+        "timestampMs": 1519807399000,
       },
       Object {
         "address": Array [
@@ -373,6 +389,7 @@ Array [
         ],
         "dstIndex": 42,
         "srcIndex": 48,
+        "timestampMs": 1519807636000,
       },
       Object {
         "address": Array [
@@ -395,6 +412,7 @@ Array [
         ],
         "dstIndex": 43,
         "srcIndex": 48,
+        "timestampMs": 1525373595000,
       },
       Object {
         "address": Array [
@@ -419,6 +437,7 @@ Array [
         ],
         "dstIndex": 9,
         "srcIndex": 48,
+        "timestampMs": 1536789965000,
       },
       Object {
         "address": Array [
@@ -443,6 +462,7 @@ Array [
         ],
         "dstIndex": 10,
         "srcIndex": 48,
+        "timestampMs": 1521217693000,
       },
       Object {
         "address": Array [
@@ -467,6 +487,7 @@ Array [
         ],
         "dstIndex": 11,
         "srcIndex": 48,
+        "timestampMs": 1521217725000,
       },
       Object {
         "address": Array [
@@ -491,6 +512,7 @@ Array [
         ],
         "dstIndex": 12,
         "srcIndex": 48,
+        "timestampMs": 1525137909000,
       },
       Object {
         "address": Array [
@@ -515,6 +537,7 @@ Array [
         ],
         "dstIndex": 13,
         "srcIndex": 48,
+        "timestampMs": 1525137925000,
       },
       Object {
         "address": Array [
@@ -539,6 +562,7 @@ Array [
         ],
         "dstIndex": 14,
         "srcIndex": 48,
+        "timestampMs": 1525137939000,
       },
       Object {
         "address": Array [
@@ -563,6 +587,7 @@ Array [
         ],
         "dstIndex": 15,
         "srcIndex": 48,
+        "timestampMs": 1525137951000,
       },
       Object {
         "address": Array [
@@ -587,6 +612,7 @@ Array [
         ],
         "dstIndex": 16,
         "srcIndex": 48,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -611,6 +637,7 @@ Array [
         ],
         "dstIndex": 17,
         "srcIndex": 48,
+        "timestampMs": 1525138238000,
       },
       Object {
         "address": Array [
@@ -635,6 +662,7 @@ Array [
         ],
         "dstIndex": 18,
         "srcIndex": 48,
+        "timestampMs": 1521217642000,
       },
       Object {
         "address": Array [
@@ -659,6 +687,7 @@ Array [
         ],
         "dstIndex": 19,
         "srcIndex": 48,
+        "timestampMs": 1521217661000,
       },
       Object {
         "address": Array [
@@ -683,6 +712,7 @@ Array [
         ],
         "dstIndex": 20,
         "srcIndex": 48,
+        "timestampMs": 1524973307000,
       },
       Object {
         "address": Array [
@@ -707,6 +737,7 @@ Array [
         ],
         "dstIndex": 22,
         "srcIndex": 48,
+        "timestampMs": 1519807420000,
       },
       Object {
         "address": Array [
@@ -729,6 +760,7 @@ Array [
         ],
         "dstIndex": 32,
         "srcIndex": 49,
+        "timestampMs": 1530297021000,
       },
       Object {
         "address": Array [
@@ -751,6 +783,7 @@ Array [
         ],
         "dstIndex": 33,
         "srcIndex": 49,
+        "timestampMs": 1536789479000,
       },
       Object {
         "address": Array [
@@ -773,6 +806,7 @@ Array [
         ],
         "dstIndex": 43,
         "srcIndex": 49,
+        "timestampMs": 1525373595000,
       },
       Object {
         "address": Array [
@@ -796,6 +830,7 @@ Array [
         ],
         "dstIndex": 45,
         "srcIndex": 49,
+        "timestampMs": 1519878210000,
       },
       Object {
         "address": Array [
@@ -819,6 +854,7 @@ Array [
         ],
         "dstIndex": 46,
         "srcIndex": 49,
+        "timestampMs": 1519878296000,
       },
       Object {
         "address": Array [
@@ -843,6 +879,7 @@ Array [
         ],
         "dstIndex": 7,
         "srcIndex": 49,
+        "timestampMs": 1536789813000,
       },
       Object {
         "address": Array [
@@ -867,6 +904,7 @@ Array [
         ],
         "dstIndex": 23,
         "srcIndex": 49,
+        "timestampMs": 1528764380000,
       },
       Object {
         "address": Array [
@@ -892,6 +930,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 49,
+        "timestampMs": 1519878210000,
       },
       Object {
         "address": Array [
@@ -906,6 +945,7 @@ Array [
         ],
         "dstIndex": 0,
         "srcIndex": 25,
+        "timestampMs": 1519807427000,
       },
       Object {
         "address": Array [
@@ -920,6 +960,7 @@ Array [
         ],
         "dstIndex": 1,
         "srcIndex": 26,
+        "timestampMs": 1536806901000,
       },
       Object {
         "address": Array [
@@ -934,6 +975,7 @@ Array [
         ],
         "dstIndex": 2,
         "srcIndex": 27,
+        "timestampMs": 1519878354000,
       },
       Object {
         "address": Array [
@@ -948,6 +990,7 @@ Array [
         ],
         "dstIndex": 3,
         "srcIndex": 28,
+        "timestampMs": 1536788634000,
       },
       Object {
         "address": Array [
@@ -962,6 +1005,7 @@ Array [
         ],
         "dstIndex": 4,
         "srcIndex": 29,
+        "timestampMs": 1519807271000,
       },
       Object {
         "address": Array [
@@ -976,6 +1020,7 @@ Array [
         ],
         "dstIndex": 5,
         "srcIndex": 30,
+        "timestampMs": 1519807329000,
       },
       Object {
         "address": Array [
@@ -992,6 +1037,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 31,
+        "timestampMs": 1519807088000,
       },
       Object {
         "address": Array [
@@ -1008,6 +1054,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 32,
+        "timestampMs": 1530297021000,
       },
       Object {
         "address": Array [
@@ -1024,6 +1071,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 33,
+        "timestampMs": 1536789479000,
       },
       Object {
         "address": Array [
@@ -1040,6 +1088,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 34,
+        "timestampMs": 1536878086000,
       },
       Object {
         "address": Array [
@@ -1056,6 +1105,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 35,
+        "timestampMs": 1536878137000,
       },
       Object {
         "address": Array [
@@ -1072,6 +1122,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 36,
+        "timestampMs": 1519807129000,
       },
       Object {
         "address": Array [
@@ -1088,6 +1139,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 37,
+        "timestampMs": 1519807454000,
       },
       Object {
         "address": Array [
@@ -1104,6 +1156,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 38,
+        "timestampMs": 1521217624000,
       },
       Object {
         "address": Array [
@@ -1120,6 +1173,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 39,
+        "timestampMs": 1521569949000,
       },
       Object {
         "address": Array [
@@ -1136,6 +1190,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 40,
+        "timestampMs": 1521570243000,
       },
       Object {
         "address": Array [
@@ -1152,6 +1207,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 41,
+        "timestampMs": 1519807399000,
       },
       Object {
         "address": Array [
@@ -1168,6 +1224,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 42,
+        "timestampMs": 1519807636000,
       },
       Object {
         "address": Array [
@@ -1184,6 +1241,7 @@ Array [
         ],
         "dstIndex": 44,
         "srcIndex": 43,
+        "timestampMs": 1525373595000,
       },
       Object {
         "address": Array [
@@ -1201,6 +1259,7 @@ Array [
         ],
         "dstIndex": 42,
         "srcIndex": 45,
+        "timestampMs": 1519878210000,
       },
       Object {
         "address": Array [
@@ -1218,6 +1277,7 @@ Array [
         ],
         "dstIndex": 42,
         "srcIndex": 46,
+        "timestampMs": 1519878296000,
       },
       Object {
         "address": Array [
@@ -1236,6 +1296,7 @@ Array [
         ],
         "dstIndex": 33,
         "srcIndex": 6,
+        "timestampMs": 1536789545000,
       },
       Object {
         "address": Array [
@@ -1254,6 +1315,7 @@ Array [
         ],
         "dstIndex": 33,
         "srcIndex": 7,
+        "timestampMs": 1536789813000,
       },
       Object {
         "address": Array [
@@ -1272,6 +1334,7 @@ Array [
         ],
         "dstIndex": 33,
         "srcIndex": 8,
+        "timestampMs": 1536789858000,
       },
       Object {
         "address": Array [
@@ -1290,6 +1353,7 @@ Array [
         ],
         "dstIndex": 33,
         "srcIndex": 9,
+        "timestampMs": 1536789965000,
       },
       Object {
         "address": Array [
@@ -1308,6 +1372,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 10,
+        "timestampMs": 1521217693000,
       },
       Object {
         "address": Array [
@@ -1326,6 +1391,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 11,
+        "timestampMs": 1521217725000,
       },
       Object {
         "address": Array [
@@ -1344,6 +1410,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 12,
+        "timestampMs": 1525137909000,
       },
       Object {
         "address": Array [
@@ -1362,6 +1429,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 13,
+        "timestampMs": 1525137925000,
       },
       Object {
         "address": Array [
@@ -1380,6 +1448,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 14,
+        "timestampMs": 1525137939000,
       },
       Object {
         "address": Array [
@@ -1398,6 +1467,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 15,
+        "timestampMs": 1525137951000,
       },
       Object {
         "address": Array [
@@ -1416,6 +1486,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 16,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -1434,6 +1505,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 17,
+        "timestampMs": 1525138238000,
       },
       Object {
         "address": Array [
@@ -1452,6 +1524,7 @@ Array [
         ],
         "dstIndex": 38,
         "srcIndex": 18,
+        "timestampMs": 1521217642000,
       },
       Object {
         "address": Array [
@@ -1470,6 +1543,7 @@ Array [
         ],
         "dstIndex": 38,
         "srcIndex": 19,
+        "timestampMs": 1521217661000,
       },
       Object {
         "address": Array [
@@ -1488,6 +1562,7 @@ Array [
         ],
         "dstIndex": 38,
         "srcIndex": 20,
+        "timestampMs": 1524973307000,
       },
       Object {
         "address": Array [
@@ -1506,6 +1581,7 @@ Array [
         ],
         "dstIndex": 38,
         "srcIndex": 21,
+        "timestampMs": 1535576390000,
       },
       Object {
         "address": Array [
@@ -1524,6 +1600,7 @@ Array [
         ],
         "dstIndex": 41,
         "srcIndex": 22,
+        "timestampMs": 1519807420000,
       },
       Object {
         "address": Array [
@@ -1542,6 +1619,7 @@ Array [
         ],
         "dstIndex": 42,
         "srcIndex": 23,
+        "timestampMs": 1528764380000,
       },
       Object {
         "address": Array [
@@ -1561,6 +1639,7 @@ Array [
         ],
         "dstIndex": 45,
         "srcIndex": 24,
+        "timestampMs": 1519878210000,
       },
       Object {
         "address": Array [
@@ -1577,6 +1656,7 @@ Array [
         ],
         "dstIndex": 25,
         "srcIndex": 41,
+        "timestampMs": 1519807427000,
       },
       Object {
         "address": Array [
@@ -1593,6 +1673,7 @@ Array [
         ],
         "dstIndex": 27,
         "srcIndex": 42,
+        "timestampMs": 1519878354000,
       },
       Object {
         "address": Array [
@@ -1616,6 +1697,7 @@ Array [
         ],
         "dstIndex": 31,
         "srcIndex": 48,
+        "timestampMs": 1536878100000,
       },
       Object {
         "address": Array [
@@ -1639,6 +1721,7 @@ Array [
         ],
         "dstIndex": 35,
         "srcIndex": 48,
+        "timestampMs": 1536878149000,
       },
       Object {
         "address": Array [
@@ -1662,6 +1745,7 @@ Array [
         ],
         "dstIndex": 43,
         "srcIndex": 48,
+        "timestampMs": 1536952427000,
       },
       Object {
         "address": Array [
@@ -1687,6 +1771,7 @@ Array [
         ],
         "dstIndex": 23,
         "srcIndex": 48,
+        "timestampMs": 1536952482000,
       },
       Object {
         "address": Array [
@@ -1713,6 +1798,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 48,
+        "timestampMs": 1537294764000,
       },
       Object {
         "address": Array [
@@ -1739,6 +1825,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 49,
+        "timestampMs": 1537294762000,
       },
       Object {
         "address": Array [
@@ -1762,6 +1849,7 @@ Array [
         ],
         "dstIndex": 35,
         "srcIndex": 48,
+        "timestampMs": 1536878144000,
       },
       Object {
         "address": Array [
@@ -1787,6 +1875,7 @@ Array [
         ],
         "dstIndex": 8,
         "srcIndex": 48,
+        "timestampMs": 1536952420000,
       },
       Object {
         "address": Array [
@@ -1813,6 +1902,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 48,
+        "timestampMs": 1537294761000,
       },
       Object {
         "address": Array [
@@ -1839,6 +1929,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 49,
+        "timestampMs": 1537294758000,
       },
       Object {
         "address": Array [
@@ -1862,6 +1953,7 @@ Array [
         ],
         "dstIndex": 35,
         "srcIndex": 48,
+        "timestampMs": 1548353975000,
       },
       Object {
         "address": Array [
@@ -1885,6 +1977,7 @@ Array [
         ],
         "dstIndex": 34,
         "srcIndex": 48,
+        "timestampMs": 1536878091000,
       },
       Object {
         "address": Array [
@@ -1908,6 +2001,7 @@ Array [
         ],
         "dstIndex": 35,
         "srcIndex": 48,
+        "timestampMs": 1536878140000,
       },
       Object {
         "address": Array [
@@ -1931,6 +2025,7 @@ Array [
         ],
         "dstIndex": 43,
         "srcIndex": 48,
+        "timestampMs": 1536952428000,
       },
       Object {
         "address": Array [
@@ -1956,6 +2051,7 @@ Array [
         ],
         "dstIndex": 8,
         "srcIndex": 48,
+        "timestampMs": 1536952413000,
       },
       Object {
         "address": Array [
@@ -1982,6 +2078,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 48,
+        "timestampMs": 1537294756000,
       },
       Object {
         "address": Array [
@@ -2008,6 +2105,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 49,
+        "timestampMs": 1537294753000,
       },
       Object {
         "address": Array [
@@ -2029,6 +2127,7 @@ Array [
         ],
         "dstIndex": 41,
         "srcIndex": 25,
+        "timestampMs": 1519807427000,
       },
       Object {
         "address": Array [
@@ -2049,6 +2148,7 @@ Array [
         ],
         "dstIndex": 49,
         "srcIndex": 26,
+        "timestampMs": 1536806901000,
       },
       Object {
         "address": Array [
@@ -2070,6 +2170,7 @@ Array [
         ],
         "dstIndex": 42,
         "srcIndex": 27,
+        "timestampMs": 1519878354000,
       },
       Object {
         "address": Array [
@@ -2090,6 +2191,7 @@ Array [
         ],
         "dstIndex": 49,
         "srcIndex": 28,
+        "timestampMs": 1536788634000,
       },
       Object {
         "address": Array [
@@ -2113,6 +2215,7 @@ Array [
         ],
         "dstIndex": 32,
         "srcIndex": 32,
+        "timestampMs": 1530297021000,
       },
       Object {
         "address": Array [
@@ -2136,6 +2239,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 32,
+        "timestampMs": 1530297021000,
       },
       Object {
         "address": Array [
@@ -2157,6 +2261,7 @@ Array [
         ],
         "dstIndex": 29,
         "srcIndex": 34,
+        "timestampMs": 1536878086000,
       },
       Object {
         "address": Array [
@@ -2178,6 +2283,7 @@ Array [
         ],
         "dstIndex": 30,
         "srcIndex": 34,
+        "timestampMs": 1536878086000,
       },
       Object {
         "address": Array [
@@ -2201,6 +2307,7 @@ Array [
         ],
         "dstIndex": 31,
         "srcIndex": 36,
+        "timestampMs": 1519807129000,
       },
       Object {
         "address": Array [
@@ -2223,6 +2330,7 @@ Array [
         ],
         "dstIndex": 49,
         "srcIndex": 42,
+        "timestampMs": 1519807636000,
       },
       Object {
         "address": Array [
@@ -2248,6 +2356,7 @@ Array [
         ],
         "dstIndex": 38,
         "srcIndex": 10,
+        "timestampMs": 1521217693000,
       },
       Object {
         "address": Array [
@@ -2275,6 +2384,7 @@ Array [
         ],
         "dstIndex": 19,
         "srcIndex": 11,
+        "timestampMs": 1521217725000,
       },
       Object {
         "address": Array [
@@ -2300,6 +2410,7 @@ Array [
         ],
         "dstIndex": 42,
         "srcIndex": 12,
+        "timestampMs": 1525137909000,
       },
       Object {
         "address": Array [
@@ -2326,6 +2437,7 @@ Array [
         ],
         "dstIndex": 45,
         "srcIndex": 13,
+        "timestampMs": 1525137925000,
       },
       Object {
         "address": Array [
@@ -2354,6 +2466,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 14,
+        "timestampMs": 1525137939000,
       },
       Object {
         "address": Array [
@@ -2378,6 +2491,7 @@ Array [
         ],
         "dstIndex": 49,
         "srcIndex": 15,
+        "timestampMs": 1525137951000,
       },
       Object {
         "address": Array [
@@ -2403,6 +2517,7 @@ Array [
         ],
         "dstIndex": 31,
         "srcIndex": 16,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -2428,6 +2543,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 16,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -2453,6 +2569,7 @@ Array [
         ],
         "dstIndex": 41,
         "srcIndex": 16,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -2479,6 +2596,7 @@ Array [
         ],
         "dstIndex": 45,
         "srcIndex": 16,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -2507,6 +2625,7 @@ Array [
         ],
         "dstIndex": 24,
         "srcIndex": 16,
+        "timestampMs": 1525138231000,
       },
       Object {
         "address": Array [
@@ -2532,6 +2651,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 20,
+        "timestampMs": 1524973307000,
       },
       Object {
         "address": Array [
@@ -2557,6 +2677,7 @@ Array [
         ],
         "dstIndex": 36,
         "srcIndex": 22,
+        "timestampMs": 1519807420000,
       },
     ],
     "nodes": Array [

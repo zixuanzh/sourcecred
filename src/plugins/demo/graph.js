@@ -15,16 +15,19 @@ export const edges = Object.freeze({
     src: nodes.inserter1.address,
     dst: nodes.machine1.address,
     address: EdgeAddress.fromParts(["factorio", "transports", "1"]),
+    timestampMs: 0,
   }),
   assembles1: Object.freeze({
     src: nodes.machine1.address,
     dst: nodes.inserter2.address,
     address: EdgeAddress.fromParts(["factorio", "assembles", "1"]),
+    timestampMs: 0,
   }),
   transports2: Object.freeze({
     src: nodes.inserter2.address,
     dst: nodes.machine2.address,
     address: EdgeAddress.fromParts(["factorio", "assembles", "2"]),
+    timestampMs: 0,
   }),
 });
 

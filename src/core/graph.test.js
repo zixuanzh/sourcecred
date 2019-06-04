@@ -37,16 +37,19 @@ describe("core/graph", () => {
     address: EdgeAddress.fromParts(["edge"]),
     src: src.address,
     dst: dst.address,
+    timestampMs: 0,
   });
   const differentAddressEdge = Object.freeze({
     src: src.address,
     dst: dst.address,
     address: EdgeAddress.fromParts(["wat"]),
+    timestampMs: 0,
   });
   const loopEdge = Object.freeze({
     address: EdgeAddress.fromParts(["loop"]),
     src: src.address,
     dst: src.address,
+    timestampMs: 0,
   });
 
   function sortNodes(nodes: Node[]): Node[] {
@@ -482,11 +485,35 @@ describe("core/graph", () => {
               src: src.address,
               dst: dst.address,
               address: EdgeAddress.fromParts(["1"]),
+              timestampMs: 0,
             };
             const e2 = {
               src: src.address,
               dst: src.address,
               address: EdgeAddress.fromParts(["1"]),
+              timestampMs: 0,
+            };
+            const graph = new Graph()
+              .addNode(src)
+              .addNode(dst)
+              .addEdge(e1);
+            expect(() => graph.addEdge(e2)).toThrow(
+              "conflict between new edge"
+            );
+          });
+
+          it("throws on conflicting edge timestamp", () => {
+            const e1 = {
+              src: src.address,
+              dst: dst.address,
+              address: EdgeAddress.fromParts(["1"]),
+              timestampMs: 0,
+            };
+            const e2 = {
+              src: src.address,
+              dst: dst.address,
+              address: EdgeAddress.fromParts(["1"]),
+              timestampMs: 1,
             };
             const graph = new Graph()
               .addNode(src)
@@ -549,6 +576,7 @@ describe("core/graph", () => {
               address: EdgeAddress.fromParts(["edge"]),
               src: NodeAddress.fromParts(["node"]),
               dst: NodeAddress.fromParts(["node"]),
+              timestampMs: 0,
             });
             const iterator = g.edges({showDangling: true});
             g._modificationCount++;
@@ -572,26 +600,31 @@ describe("core/graph", () => {
           src: src1.address,
           dst: dst1.address,
           address: EdgeAddress.fromParts(["e", "1", "1"]),
+          timestampMs: 0,
         };
         const e12 = {
           src: src1.address,
           dst: dst2.address,
           address: EdgeAddress.fromParts(["e", "1", "2"]),
+          timestampMs: 0,
         };
         const e21 = {
           src: src2.address,
           dst: dst1.address,
           address: EdgeAddress.fromParts(["e", "2", "1"]),
+          timestampMs: 0,
         };
         const e22 = {
           src: src2.address,
           dst: dst2.address,
           address: EdgeAddress.fromParts(["e", "2", "2"]),
+          timestampMs: 0,
         };
         const eDangling = {
           src: src2.address,
           dst: NodeAddress.empty,
           address: EdgeAddress.fromParts(["e", "2", "NaN"]),
+          timestampMs: 0,
         };
         const graph = () =>
           [e11, e12, e21, e22, eDangling].reduce(
@@ -761,8 +794,18 @@ describe("core/graph", () => {
         describe("with multiple loop edges", () => {
           const e1 = EdgeAddress.fromParts(["e1"]);
           const e2 = EdgeAddress.fromParts(["e2"]);
-          const edge1 = {src: src.address, dst: src.address, address: e1};
-          const edge2 = {src: src.address, dst: src.address, address: e2};
+          const edge1 = {
+            src: src.address,
+            dst: src.address,
+            address: e1,
+            timestampMs: 0,
+          };
+          const edge2 = {
+            src: src.address,
+            dst: src.address,
+            address: e2,
+            timestampMs: 0,
+          };
           const quiver = () =>
             new Graph()
               .addNode(src)
@@ -891,26 +934,31 @@ describe("core/graph", () => {
         src: foo.address,
         dst: loop.address,
         address: EdgeAddress.fromParts(["foo", "1"]),
+        timestampMs: 0,
       };
       const loop_foo = {
         src: loop.address,
         dst: foo.address,
         address: EdgeAddress.fromParts(["foo", "2"]),
+        timestampMs: 0,
       };
       const loop_loop = {
         src: loop.address,
         dst: loop.address,
         address: EdgeAddress.fromParts(["loop"]),
+        timestampMs: 0,
       };
       const repeated_loop_foo = {
         src: loop.address,
         dst: foo.address,
         address: EdgeAddress.fromParts(["repeated", "foo"]),
+        timestampMs: 0,
       };
       const dangling = {
         src: halfIsolated.address,
         dst: NodeAddress.fromParts(["nonexistent"]),
         address: EdgeAddress.fromParts(["dangling"]),
+        timestampMs: 0,
       };
       function quiver() {
         return new Graph()
@@ -1262,21 +1310,25 @@ describe("core/graph", () => {
       src: foo.address,
       dst: foo.address,
       address: EdgeAddress.fromParts(["foofoo"]),
+      timestampMs: 0,
     });
     const foobar = Object.freeze({
       src: foo.address,
       dst: bar.address,
       address: EdgeAddress.fromParts(["foobar"]),
+      timestampMs: 0,
     });
     const zodfoo = Object.freeze({
       src: zod.address,
       dst: foo.address,
       address: EdgeAddress.fromParts(["zodfoo"]),
+      timestampMs: 0,
     });
     const conflictingZodfoo = Object.freeze({
       src: zod.address,
       dst: zod.address,
       address: EdgeAddress.fromParts(["zodfoo"]),
+      timestampMs: 0,
     });
     it("yields empty graph on empty input", () => {
       expect(Graph.merge([]).equals(new Graph())).toBe(true);
@@ -1480,12 +1532,14 @@ describe("core/graph", () => {
         address: EdgeAddress.fromParts(["one", "two"]),
         dst: NodeAddress.fromParts(["five", "six"]),
         src: NodeAddress.fromParts(["three", "four"]),
+        timestampMs: 0,
       };
       const expected =
         "{" +
         'address: EdgeAddress["one","two"], ' +
         'src: NodeAddress["three","four"], ' +
-        'dst: NodeAddress["five","six"]' +
+        'dst: NodeAddress["five","six"], ' +
+        "timestampMs: 0" +
         "}";
       expect(edgeToString(edge)).toEqual(expected);
     });
@@ -1506,11 +1560,13 @@ describe("core/graph", () => {
         address: EdgeAddress.fromParts(["one", "two"]),
         dst: NodeAddress.fromParts(["five", "six"]),
         src: NodeAddress.fromParts(["three", "four"]),
+        timestampMs: 0,
       };
       const expected = {
         address: 'EdgeAddress["one","two"]',
         src: 'NodeAddress["three","four"]',
         dst: 'NodeAddress["five","six"]',
+        timestampMs: 0,
       };
       expect(edgeToStrings(edge)).toEqual(expected);
     });
@@ -1522,11 +1578,13 @@ describe("core/graph", () => {
         address: EdgeAddress.fromParts(["one", "two"]),
         dst: NodeAddress.fromParts(["five", "six"]),
         src: NodeAddress.fromParts(["three", "four"]),
+        timestampMs: 0,
       };
       const expected = {
         addressParts: ["one", "two"],
         srcParts: ["three", "four"],
         dstParts: ["five", "six"],
+        timestampMs: 0,
       };
       expect(edgeToParts(edge)).toEqual(expected);
     });

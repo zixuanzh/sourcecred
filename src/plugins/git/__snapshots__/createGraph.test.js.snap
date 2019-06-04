@@ -4,7 +4,7 @@ exports[`plugins/git/createGraph createGraph processes a simple repository 1`] =
 Array [
   Object {
     "type": "sourcecred/graph",
-    "version": "0.6.0",
+    "version": "0.7.0",
   },
   Object {
     "edges": Array [
@@ -22,6 +22,7 @@ Array [
         ],
         "dstIndex": 1,
         "srcIndex": 0,
+        "timestampMs": 981173106000,
       },
       Object {
         "address": Array [
@@ -37,6 +38,7 @@ Array [
         ],
         "dstIndex": 7,
         "srcIndex": 1,
+        "timestampMs": 981173106000,
       },
       Object {
         "address": Array [
@@ -52,6 +54,7 @@ Array [
         ],
         "dstIndex": 3,
         "srcIndex": 2,
+        "timestampMs": 981173106000,
       },
       Object {
         "address": Array [
@@ -67,6 +70,7 @@ Array [
         ],
         "dstIndex": 4,
         "srcIndex": 3,
+        "timestampMs": 981173106000,
       },
       Object {
         "address": Array [
@@ -82,6 +86,7 @@ Array [
         ],
         "dstIndex": 0,
         "srcIndex": 5,
+        "timestampMs": 981173106000,
       },
       Object {
         "address": Array [
@@ -97,6 +102,7 @@ Array [
         ],
         "dstIndex": 2,
         "srcIndex": 6,
+        "timestampMs": 981173106000,
       },
       Object {
         "address": Array [
@@ -112,6 +118,7 @@ Array [
         ],
         "dstIndex": 6,
         "srcIndex": 7,
+        "timestampMs": 981173106000,
       },
     ],
     "nodes": Array [

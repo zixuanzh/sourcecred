@@ -124,21 +124,25 @@ describe("analysis/pagerankNodeDecomposition", () => {
         src: n1.address,
         dst: n2.address,
         address: EdgeAddress.fromParts(["e1"]),
+        timestampMs: 0,
       };
       const e2 = {
         src: n2.address,
         dst: n3.address,
         address: EdgeAddress.fromParts(["e2"]),
+        timestampMs: 0,
       };
       const e3 = {
         src: n1.address,
         dst: n3.address,
         address: EdgeAddress.fromParts(["e3"]),
+        timestampMs: 0,
       };
       const e4 = {
         src: n3.address,
         dst: n3.address,
         address: EdgeAddress.fromParts(["e4"]),
+        timestampMs: 0,
       };
       const g = new Graph()
         .addNode(n1)

@@ -284,21 +284,25 @@ describe("core/pagerankGraph", () => {
       src: src1.address,
       dst: dst1.address,
       address: EdgeAddress.fromParts(["e", "1", "1"]),
+      timestampMs: 0,
     };
     const e12 = {
       src: src1.address,
       dst: dst2.address,
       address: EdgeAddress.fromParts(["e", "1", "2"]),
+      timestampMs: 0,
     };
     const e21 = {
       src: src2.address,
       dst: dst1.address,
       address: EdgeAddress.fromParts(["e", "2", "1"]),
+      timestampMs: 0,
     };
     const e22 = {
       src: src2.address,
       dst: dst2.address,
       address: EdgeAddress.fromParts(["e", "2", "2"]),
+      timestampMs: 0,
     };
     const graph = () => {
       const g = new Graph();

@@ -45,17 +45,20 @@ export function advancedGraph() {
     src: src.address,
     dst: dst.address,
     address: EdgeAddress.fromParts(["hom", "1"]),
+    timestampMs: 0,
   });
   const hom2 = Object.freeze({
     src: src.address,
     dst: dst.address,
     address: EdgeAddress.fromParts(["hom", "2"]),
+    timestampMs: 0,
   });
   const loop = node("loop");
   const loop_loop = Object.freeze({
     src: loop.address,
     dst: loop.address,
     address: EdgeAddress.fromParts(["loop"]),
+    timestampMs: 0,
   });
 
   const halfIsolated = node("halfIsolated");
@@ -64,11 +67,13 @@ export function advancedGraph() {
     src: halfIsolated.address,
     dst: phantomNode.address,
     address: EdgeAddress.fromParts(["half", "dangling"]),
+    timestampMs: 0,
   });
   const fullDanglingEdge = Object.freeze({
     src: phantomNode.address,
     dst: phantomNode.address,
     address: EdgeAddress.fromParts(["full", "dangling"]),
+    timestampMs: 0,
   });
 
   const isolated = node("isolated");
@@ -93,11 +98,13 @@ export function advancedGraph() {
     src: src.address,
     dst: phantomNode.address,
     address: EdgeAddress.fromParts(["phantom"]),
+    timestampMs: 0,
   });
   const phantomEdge2 = Object.freeze({
     src: src.address,
     dst: isolated.address,
     address: EdgeAddress.fromParts(["not", "so", "isolated"]),
+    timestampMs: 0,
   });
 
   // To verify that the graphs are equivalent, every mutation is preceded

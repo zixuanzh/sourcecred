@@ -234,6 +234,7 @@ describe("cli/pagerank", () => {
         address: EdgeAddress.empty,
         src: n.address,
         dst: n.address,
+        timestampMs: 0,
       });
       await defaultPagerank(graph);
     });

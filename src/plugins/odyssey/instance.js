@@ -155,6 +155,8 @@ export class OdysseyInstance {
       src: src.address,
       dst: dst.address,
       address: EdgeAddress.append(EDGE_PREFIX, type, String(this._count)),
+      // TODO(@decentralion): A real timestamp
+      timestampMs: 0,
     };
     this._graph.addEdge(edge);
     this._count++;
