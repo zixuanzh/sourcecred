@@ -118,6 +118,10 @@ function makeRouteData(registry /*: RepoIdRegistry */) /*: RouteData */ {
       "FileUploader",
       () => require("../util/FileUploaderInspectionTest").default
     ),
+    inspectionTestFor(
+      "TimelineCredView",
+      () => require("../explorer/TimelineCredViewInspectionTest").default
+    ),
   ];
 }
 exports.makeRouteData = makeRouteData;
