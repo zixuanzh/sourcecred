@@ -28,7 +28,6 @@ export type State = {
   loading: boolean,
 };
 
-const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 const ALPHA = 0.05;
 
 export class TimelineExplorer extends React.Component<Props, State> {
@@ -46,10 +45,9 @@ export class TimelineExplorer extends React.Component<Props, State> {
       this.props.graph,
       types,
       this.state.weights,
-      ONE_WEEK,
       1,
       repoNodeType.prefix,
-      "PREFIX",
+      "TIME",
       ALPHA
     );
     this.setState({timelineScores, loading: false});

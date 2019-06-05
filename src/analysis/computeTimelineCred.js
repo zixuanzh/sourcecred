@@ -1,13 +1,20 @@
 // @flow
 
 import sortBy from "lodash.sortby";
+import deepEqual from "lodash.isequal";
 import {timeWeek} from "d3-time";
+import * as NullUtil from "../util/null";
 import {Graph, type NodeAddressT, type Edge, type Node} from "../core/graph";
 import {PagerankGraph} from "../core/pagerankGraph";
 import {type NodeAndEdgeTypes} from "./types";
 import {type Weights} from "./weights";
-import {weightsToEdgeEvaluator} from "./weightsToEdgeEvaluator";
+import {type EdgeEvaluator} from "./pagerank";
+import {
+  weightsToEdgeEvaluator,
+  weightsToNodeEvaluator,
+} from "./weightsToEdgeEvaluator";
 import * as MapUtil from "../util/map";
+import {userNodeType} from "../plugins/github/declaration";
 
 export type Interval = {|
   +startTimeMs: number,
@@ -20,8 +27,7 @@ export type TimelineScores = {|
 |};
 
 export function derivedInterals(
-  graph: Graph,
-  intervalLengthMs: number
+  graph: Graph
 ): {|+interval: Interval, +nodesForInterval: Node[]|}[] {
   const nodesWithTimestamps = Array.from(graph.nodes()).filter(
     (x) => x.timestampMs != null
@@ -57,43 +63,32 @@ export async function computeTimelineScores(
   graph: Graph,
   types: NodeAndEdgeTypes,
   weights: Weights,
-  intervalLengthMs: number,
-  weightHalfLifeInIntervals: number,
+  intervalHalfLife: number,
   seedPrefix: NodeAddressT,
   seedStrategy: "TIME" | "PREFIX",
   alpha: number
 ): Promise<TimelineScores> {
   console.time("computeTimelineScores");
-  const intervalsWithNodes = derivedInterals(graph, intervalLengthMs);
+  const intervalsWithNodes = derivedInterals(graph);
 
   const evaluator = weightsToEdgeEvaluator(weights, types);
+  const nodeEvaluator = weightsToNodeEvaluator(weights, types);
   const prg = new PagerankGraph(graph, evaluator);
+  const intervals = intervalsWithNodes.map((x) => x.interval);
+
+  const decayedEvaluatorForInterval = decayedEvaluator(
+    evaluator,
+    intervals,
+    intervalHalfLife
+  );
 
   const nodeAddressToScores = new Map();
   for (const {interval, nodesForInterval} of intervalsWithNodes) {
-    const {endTimeMs} = interval;
-    // TODO(@decentralion): Factor this out into tested helper method :)
-    const decayedEvaluator = (edge: Edge) => {
-      const {timestampMs} = edge;
-      // Count from the end of the interval and then take floor division by interval length
-      // If the value is between 0 and 1 (i.e. it was created in this interval) give it full
-      // weight.
-      const ageMs = endTimeMs - timestampMs;
-      const ageIntervals = Math.floor(ageMs / intervalLengthMs);
-      if (ageIntervals < 0) {
-        // Edge not created yet.
-        return {toWeight: 0, froWeight: 0};
-      }
-      const decayFactor = Math.pow(
-        0.5,
-        ageIntervals / weightHalfLifeInIntervals
-      );
-      const {toWeight, froWeight} = evaluator(edge);
-      return {
-        toWeight: toWeight * decayFactor,
-        froWeight: froWeight * decayFactor,
-      };
-    };
+    const decayedEvaluator = decayedEvaluatorForInterval(interval);
+    let totalCredForinterval = 0;
+    nodesForInterval.forEach(({address}) => {
+      totalCredForinterval += nodeEvaluator(address);
+    });
     const seed = new Map();
     switch (seedStrategy) {
       case "TIME": {
@@ -113,11 +108,70 @@ export async function computeTimelineScores(
     }
     prg.setEdgeEvaluator(decayedEvaluator);
     await prg.runPagerank({alpha, seed});
+    let totalUserScore = 0;
+    for (const {score} of prg.nodes({prefix: userNodeType.prefix})) {
+      totalUserScore += score;
+    }
+
     for (const {node, score} of prg.nodes()) {
-      MapUtil.pushValue(nodeAddressToScores, node.address, score);
+      const cred = (score * totalCredForinterval) / totalUserScore;
+      MapUtil.pushValue(nodeAddressToScores, node.address, cred);
     }
   }
-  const intervals = intervalsWithNodes.map((x) => x.interval);
   console.timeEnd("computeTimelineScores");
   return {intervals, nodeAddressToScores};
+}
+
+export function decayedEvaluator(
+  baseEvaluator: EdgeEvaluator,
+  intervals: Interval[],
+  intervalHalfLife: number
+): (Interval) => EdgeEvaluator {
+  const edgeAddressToIntervalIndex = new Map();
+  const edgeAddressToWeight = new Map();
+  function getIntervalIndex(e: Edge) {
+    const cached = edgeAddressToIntervalIndex.get(e.address);
+    if (cached != null) {
+      return cached;
+    }
+    const {timestampMs} = e;
+    const index = intervals.findIndex(
+      ({startTimeMs, endTimeMs}) =>
+        startTimeMs <= timestampMs && timestampMs < endTimeMs
+    );
+    edgeAddressToIntervalIndex.set(e.address, index);
+    return index;
+  }
+  function getBaseWeight(e: Edge) {
+    const cached = edgeAddressToWeight.get(e.address);
+    if (cached != null) {
+      return cached;
+    }
+    const weight = baseEvaluator(e);
+    edgeAddressToWeight.set(e.address, weight);
+    return weight;
+  }
+  return function evaluatorForInterval(interval: Interval): EdgeEvaluator {
+    const intervalIndex = NullUtil.get(
+      intervals.findIndex((x) => deepEqual(interval, x))
+    );
+    return (edge: Edge) => {
+      const edgeIndex = getIntervalIndex(edge);
+      const intervalsElapsed = intervalIndex - edgeIndex;
+      if (intervalsElapsed < 0) {
+        return {toWeight: 0, froWeight: 0};
+      } else {
+        const timeDecay = decayFactor(intervalHalfLife, intervalsElapsed);
+        const {toWeight, froWeight} = getBaseWeight(edge);
+        return {
+          toWeight: toWeight * timeDecay,
+          froWeight: froWeight * timeDecay,
+        };
+      }
+    };
+  };
+}
+
+export function decayFactor(halfLife: number, nPeriods: number): number {
+  return Math.pow(0.5, nPeriods / halfLife);
 }

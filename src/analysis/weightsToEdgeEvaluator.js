@@ -7,6 +7,28 @@ import type {Weights} from "./weights";
 import type {EdgeEvaluator} from "./pagerank";
 import {NodeTrie, EdgeTrie} from "../core/trie";
 
+// TODO: Decide if this is the right signature or not.
+// Should it take the full node?
+export type NodeEvaluator = (n: NodeAddressT) => number;
+
+export function weightsToNodeEvaluator(
+  weights: Weights,
+  types: NodeAndEdgeTypes
+): NodeEvaluator {
+  const {nodeTypeWeights, nodeManualWeights} = weights;
+  const nodeTrie = new NodeTrie();
+  for (const {prefix, defaultWeight} of types.nodeTypes) {
+    const weight = NullUtil.orElse(nodeTypeWeights.get(prefix), defaultWeight);
+    nodeTrie.add(prefix, weight);
+  }
+
+  function nodeWeight(n: NodeAddressT): number {
+    const typeWeight = NullUtil.orElse(nodeTrie.getLast(n), 1);
+    const manualWeight = NullUtil.orElse(nodeManualWeights.get(n), 1);
+    return typeWeight * manualWeight;
+  }
+  return nodeWeight;
+}
 /**
  * Given the weight choices and the node and edge types, produces an edge
  * evaluator.
