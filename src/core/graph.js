@@ -78,10 +78,10 @@ import * as NullUtil from "../util/null";
  * ```js
  * const prAddress = NodeAddress.fromParts(["pull_request", "1"]);
  * const prDescription = "My Fancy Pull Request"
- * const pr: Node = {address: prAddress, description: prDescription}
+ * const pr: Node = {address: prAddress, description: prDescription, timestampMs: +Date.now()}
  * const myAddress = NodeAddress.fromParts(["user", "decentralion"]);
  * const myDescription = "@decentralion"
- * const me: Node = {addess: myAddress, description: myDescription}
+ * const me: Node = {addess: myAddress, description: myDescription, timestampMs: null}
  * const authoredAddress = EdgeAddress.fromParts(["authored", "pull_request", "1"]);
  * const edge = {src: me, dst: pr, address: authoredAddress};
  *
@@ -127,6 +127,11 @@ export type Node = {|
   // Brief (ideally oneline) description for the node.
   // Markdown is supported.
   +description: string,
+  // When this node was created.
+  // Should be null for a "timeless" node, where we don't
+  // want to model that node as having been created at any particular
+  // point in time. User nodes are a good example of this.
+  +timestampMs: number | null,
 |};
 
 /**
@@ -139,7 +144,7 @@ export type Edge = {|
   +timestampMs: number,
 |};
 
-const COMPAT_INFO = {type: "sourcecred/graph", version: "0.7.0"};
+const COMPAT_INFO = {type: "sourcecred/graph", version: "0.8.0"};
 
 export type Neighbor = {|+node: Node, +edge: Edge|};
 
@@ -172,6 +177,7 @@ type Integer = number;
 type IndexedNodeJSON = {|
   +index: Integer,
   +description: string,
+  +timestampMs: number | null,
 |};
 type IndexedEdgeJSON = {|
   +address: AddressJSON,
@@ -763,9 +769,9 @@ export class Graph {
     );
     const sortedNodes = sortBy(Array.from(this.nodes()), (x) => x.address);
     const indexedNodes: IndexedNodeJSON[] = sortedNodes.map(
-      ({address, description}) => {
+      ({address, description, timestampMs}) => {
         const index = NullUtil.get(nodeAddressToSortedIndex.get(address));
-        return {index, description};
+        return {index, description, timestampMs};
       }
     );
     const rawJSON = {
@@ -797,6 +803,7 @@ export class Graph {
       const n: Node = {
         address: sortedNodeAddresses[j.index],
         description: j.description,
+        timestampMs: j.timestampMs,
       };
       result.addNode(n);
     });

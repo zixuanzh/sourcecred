@@ -28,7 +28,11 @@ class GraphCreator {
   addCommit(commit: GT.Commit) {
     const node: GN.CommitAddress = {type: GN.COMMIT_TYPE, hash: commit.hash};
     const description = commit.hash;
-    this.graph.addNode({address: GN.toRaw(node), description});
+    this.graph.addNode({
+      address: GN.toRaw(node),
+      description,
+      timestampMs: commit.createdAt,
+    });
     for (const parentHash of commit.parentHashes) {
       const parent: GN.CommitAddress = {type: GN.COMMIT_TYPE, hash: parentHash};
       this.graph.addEdge(

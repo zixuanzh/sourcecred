@@ -93,7 +93,8 @@ export class OdysseyInstance {
       typeIdentifier,
       String(this._count)
     );
-    const node = {address, description};
+    // TODO(@decentralion): Add timestampMs more meaningfully
+    const node = {address, description, timestampMs: null};
     this._graph.addNode(node);
     this._count++;
     this._descriptions.set(address, description);

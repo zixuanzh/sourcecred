@@ -26,7 +26,11 @@ class GraphCreator {
     for (const entity of view.entities()) {
       const d = description(entity);
       const address = N.toRaw(entity.address());
-      this.graph.addNode({address, description: d});
+      this.graph.addNode({
+        address,
+        description: d,
+        timestampMs: entity.timestampMs(),
+      });
     }
 
     for (const child of view.childEntities()) {
