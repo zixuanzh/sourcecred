@@ -49,6 +49,7 @@ export class TimelineExplorer extends React.Component<Props, State> {
       ONE_WEEK,
       1,
       repoNodeType.prefix,
+      "PREFIX",
       ALPHA
     );
     this.setState({timelineScores, loading: false});
