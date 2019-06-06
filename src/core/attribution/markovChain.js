@@ -1,6 +1,6 @@
 // @flow
 
-import {computeDelta, type Distribution} from "./distribution";
+import {computeDelta, deltaLessThan, type Distribution} from "./distribution";
 /**
  * The data inputs to running PageRank.
  *
@@ -181,14 +181,11 @@ function* findStationaryDistributionGenerator(
     // delta is below threshold, then the distribution from the last step was
     // already converged and we return it (not scratch). Otherwise, we assign
     // `scratch` to `distribution` and try again.
-    const convergenceDelta = computeDelta(pi, scratch);
-    if (options.verbose) {
-      console.log(`[${nIterations}] delta = ${convergenceDelta}`);
-    }
-    if (convergenceDelta < options.convergenceThreshold) {
+    if (deltaLessThan(pi, scratch, options.convergenceThreshold)) {
       if (options.verbose) {
         console.log(`[${nIterations}] CONVERGED`);
       }
+      const convergenceDelta = computeDelta(pi, scratch);
       return {pi, convergenceDelta};
     }
     [scratch, pi] = [pi, scratch];

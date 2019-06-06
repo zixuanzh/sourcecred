@@ -1,6 +1,6 @@
 // @flow
 
-import {uniformDistribution, computeDelta} from "./distribution";
+import {uniformDistribution, computeDelta, deltaLessThan} from "./distribution";
 
 describe("core/attribution/distribution", () => {
   describe("uniformDistribution", () => {
@@ -47,6 +47,39 @@ describe("core/attribution/distribution", () => {
       // implies that it uses Math.abs for delta computation
       const pi = new Float64Array([0.5, 0.0, 0.5]);
       expect(computeDelta(u(3), pi)).toEqual(computeDelta(pi, u(3)));
+    });
+  });
+
+  describe("deltaLessThan", () => {
+    const u = uniformDistribution;
+    it("errors on empty array", () => {
+      expect(() =>
+        deltaLessThan(new Float64Array([]), new Float64Array([]), 1)
+      ).toThrowError("invalid input");
+    });
+    it("errors on mismatched sizes", () => {
+      expect(() => deltaLessThan(u(1), u(2), 1)).toThrowError("invalid input");
+    });
+    it("returns true if delta is less than target", () => {
+      const pi = new Float64Array([0.5, 0.0, 0.5]);
+      expect(deltaLessThan(u(3), pi, 0.5)).toEqual(true);
+    });
+    it("returns false if delta is greater than target", () => {
+      const pi = new Float64Array([0.5, 0.0, 0.5]);
+      expect(deltaLessThan(u(3), pi, 0.2)).toEqual(false);
+    });
+    it("returns false if delta is equal to target", () => {
+      const pi = new Float64Array([0.5, 0.0, 0.5]);
+      expect(deltaLessThan(u(3), pi, 1 / 3)).toEqual(false);
+    });
+    it("doesn't depend on argument order", () => {
+      const pi = new Float64Array([0.5, 0.0, 0.5]);
+      const targets = [0.2, 1 / 3, 0.4];
+      for (const target of targets) {
+        expect(deltaLessThan(u(3), pi, target)).toEqual(
+          deltaLessThan(pi, u(3), target)
+        );
+      }
     });
   });
 });

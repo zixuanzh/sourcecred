@@ -33,3 +33,27 @@ export function computeDelta(pi0: Distribution, pi1: Distribution) {
   });
   return maxDelta;
 }
+
+/**
+ * Compute whether the delta is less than a target value.
+ *
+ * This is a performance optimization over using computeDelta. When running PageRank,
+ * we often don't need the actual maximum delta, we just need to know if the convergence
+ * target is ever exceeded. If so, we can immediately return and start the next iteration.
+ */
+export function deltaLessThan(
+  pi0: Distribution,
+  pi1: Distribution,
+  target: number
+) {
+  if (pi0.length === 0 || pi0.length !== pi1.length) {
+    throw new Error("invalid input");
+  }
+  for (let i = 0; i < pi0.length; i++) {
+    const delta = Math.abs(pi0[i] - pi1[i]);
+    if (delta >= target) {
+      return false;
+    }
+  }
+  return true;
+}
