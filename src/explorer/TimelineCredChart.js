@@ -6,6 +6,7 @@ import {schemeCategory10} from "d3-scale-chromatic";
 import {timeFormat} from "d3-time-format";
 import {scaleOrdinal} from "d3-scale";
 import {timeMonth, timeYear} from "d3-time";
+import {format} from "d3-format";
 import {
   LineChart,
   Line,
@@ -52,7 +53,7 @@ export class TimelineCredChart extends React.Component<Props> {
         const thisScore = myScores[index];
         // Filter a score out if it's on the zero line and not going anywhere.
         const filteredScore =
-          Math.max(lastScore, nextScore, thisScore) < 0.001 ? null : thisScore;
+          Math.max(lastScore, nextScore, thisScore) < 0.5 ? null : thisScore;
         score.set(node, filteredScore);
       }
       return {score, interval};
@@ -95,7 +96,13 @@ export class TimelineCredChart extends React.Component<Props> {
         />
         <YAxis />
         {Lines}
-        <Tooltip />
+        <Tooltip
+          formatter={format(".1d")}
+          itemSorter={(x) => -x.value}
+          labelFormatter={(v) => {
+            return `Week of ${timeFormat("%B %e, %Y")(v)}`;
+          }}
+        />
         <Legend />
       </LineChart>
     );
