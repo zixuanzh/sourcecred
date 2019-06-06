@@ -64,6 +64,7 @@ export class TimelineCredChart extends React.Component<Props> {
       return (
         <Line
           type="monotone"
+          dot={false}
           key={n}
           stroke={scale(n)}
           dataKey={(x) => x.score.get(n)}
