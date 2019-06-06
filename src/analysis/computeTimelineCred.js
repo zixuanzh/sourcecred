@@ -93,13 +93,13 @@ export async function computeTimelineScores(
     switch (seedStrategy) {
       case "TIME": {
         for (const {address} of nodesForInterval) {
-          seed.set(address, 1);
+          seed.set(address, nodeEvaluator(address));
         }
         break;
       }
       case "PREFIX": {
         for (const {address} of graph.nodes({prefix: seedPrefix})) {
-          seed.set(address, 1);
+          seed.set(address, nodeEvaluator(address));
         }
         break;
       }
