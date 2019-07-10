@@ -18,6 +18,7 @@ import execDependencyGraph from "../tools/execDependencyGraph";
 import {loadGithubData} from "../plugins/github/loadGithubData";
 import {loadGitData} from "../plugins/git/loadGitData";
 import {defaultAdapterLoaders} from "./pagerank";
+import { booleanLiteral } from "@babel/types";
 
 function usage(print: (string) => void): void {
   print(
@@ -102,6 +103,7 @@ export function makeLoadCommand(
     const repoIds: RepoId[] = [];
     let explicitOutput: RepoId | null = null;
     let plugin: Common.PluginName | null = null;
+    let sshFlag = false;
 
     for (let i = 0; i < args.length; i++) {
       switch (args[i]) {
@@ -128,6 +130,10 @@ export function makeLoadCommand(
           plugin = arg;
           break;
         }
+        case "--ssh": {
+          sshFlag = true;
+          break;
+        }
         default: {
           // Should be a repository.
           repoIds.push(stringToRepoId(args[i]));
@@ -145,7 +151,7 @@ export function makeLoadCommand(
       return die(std, "output repository not specified");
     }
 
-    const options: LoadOptions = {output, repoIds: repoIds};
+    const options: LoadOptions = {output, repoIds: repoIds, sshFlag};
 
     if (plugin == null) {
       try {
@@ -218,7 +224,7 @@ export const loadIndividualPlugin = async (
   plugin: Common.PluginName,
   options: LoadOptions
 ) => {
-  const {output, repoIds} = options;
+  const {output, repoIds, sshFlag} = options;
   function scopedDirectory(key) {
     const directory = path.join(
       Common.sourcecredDirectory(),
@@ -241,7 +247,7 @@ export const loadIndividualPlugin = async (
       return;
     }
     case "git":
-      await loadGitData({repoIds, outputDirectory, cacheDirectory});
+      await loadGitData({repoIds, outputDirectory, cacheDirectory, sshFlag});
       return;
     // Unlike the previous check, which was validating user input and
     // was reachable, this really should not occur.

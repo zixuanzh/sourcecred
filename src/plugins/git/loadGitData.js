@@ -13,10 +13,11 @@ export type Options = {|
   +repoIds: $ReadOnlyArray<RepoId>,
   +outputDirectory: string,
   +cacheDirectory: string,
+  +sshFlag: boolean,
 |};
 
 export function loadGitData(options: Options): Promise<void> {
-  const repositories = options.repoIds.map((r) => cloneAndLoadRepository(r));
+  const repositories = options.repoIds.map((r) => cloneAndLoadRepository(options.sshFlag, r));
   const repository = mergeRepository(repositories);
   const graph = createGraph(repository);
   function writeToFile(filename, serializable) {
