@@ -97,6 +97,11 @@ test_expect_success "should fail with multiple cname values" '
     printf "redacted\n" | test_cmp - important_dir/.wallet.dat
 '
 
+test_expect_success "should not error when SOURCECRED_DIRECTORY is unset" '
+    unset SOURCECRED_DIRECTORY &&
+    run --target build_output/output_sourcecred_directory_unset
+'
+
 #
 # Now, actually generate output in two cases: one with repositories, and
 # one with no repositories. We can only do this if we have a token.
